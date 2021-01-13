@@ -32,6 +32,18 @@ func pow(x, n, lim float64) float64 {
 	return lim
 }
 
+type Vertex struct {
+	X int
+	Y int
+}
+
+func sum(s []int, c chan int) {
+	sum := 0
+	for _, v := range s {
+		sum += v
+	}
+	c <- sum // send sum to c
+}
 
 func main() {
 	fmt.Println("My favorite number is", rand.Intn(10))
@@ -93,10 +105,6 @@ func main() {
 	fmt.Println(*p)
 
 	// struct
-	type Vertex struct {
-		X int
-		Y int
-	}
 	v := Vertex{1,2}
 	v_t := &v
 	v_t.X = 123
@@ -104,12 +112,72 @@ func main() {
 
 	// array cannot change size
 	var a [2]string
+	var b [] string
+	if b == nil{
+		fmt.Println("b is nil")
+	}
 	a[0] = "Hello"
 	a[1] = "World"
-	fmt.Println(a)
+	fmt.Println(a,b)
 
+	// slice enable variable size, whose size is[low,high)
+	// slice works like a reference
 	primes := [6]int{2, 3, 5, 7, 11, 13}
 	fmt.Println(primes)
 	var s []int  = primes[1:4]
 	fmt.Println(s)
+
+	// slice literal, like array without size
+	s_liter := []struct {
+		i int
+		b bool
+	}{
+		{2, true},
+		{3, false},
+		{5, true},
+		{7, true},
+		{11, false},
+		{13, true},
+	}
+	fmt.Println(s_liter)
+	for i, v:= range s_liter{
+		fmt.Println(i,v)
+	}
+
+	// slice can be dynamically-sized arrays
+	b_s := make([]int, 0, 5) // len(b)=0, cap(b)=5
+
+	b_s = b_s[:cap(b_s)] // len(b)=5, cap(b)=5
+	b_s = b_s[1:]      // len(b)=4, cap(b)=4
+
+	var m = map[string]Vertex{
+		"Bell Labs": {40,  -74},
+		"Google":    {3, -122},
+	}
+	m["asdg"] = Vertex{1,2}
+	m["123r"] = Vertex{123,123}
+	fmt.Println(m)
+	delete(m, "Google")
+	v,ok := m["Google"]
+	fmt.Println(v,ok)
+
+	// pass function ptr
+	hypot := func(x, y float64) float64 {
+		return math.Sqrt(x*x + y*y)
+	}
+	fmt.Println(hypot(5, 12))
+
+	// method: a function with a special receiver argument
+	fmt.Println(v.Abs())
+
+	// concurrency channel
+	/*c := make(chan int)
+	go sum(s[:len(s)/2], c)
+	go sum(s[len(s)/2:], c)
+	x, y := <-c, <-c // receive from c*/
+
+}
+
+func (v Vertex) Abs() float64 {
+	return math.Sqrt(float64(v.X*v.X + v.Y*v.Y))
 }
