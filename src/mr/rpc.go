@@ -3,7 +3,6 @@ package mr
 //
 // RPC definitions.
 //
-import "log"
 
 //
 // example to show how to declare the arguments
