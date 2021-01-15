@@ -31,7 +31,7 @@ func Worker(mapf func(string, string) []KeyValue,
 	// Your worker implementation here.
 
 	// uncomment to send the Example RPC to the master.
-	// CallExample()
+	CallExample()
 
 }
 
@@ -41,19 +41,20 @@ func Worker(mapf func(string, string) []KeyValue,
 func CallExample() {
 
 	// declare an argument structure.
-	args := ExampleArgs{}
+	args := RPCArgs{}
 
 	// fill in the argument(s).
-	args.X = 99
+	args.Key  = "test"
+	args.Value = "result"
 
 	// declare a reply structure.
-	reply := ExampleReply{}
+	reply := RPCReply{}
 
 	// send the RPC request, wait for the reply.
 	call("Master.Example", &args, &reply)
 
 	// reply.Y should be 100.
-	fmt.Printf("reply.Y %v\n", reply.Y)
+	fmt.Printf("reply.Y %v\n", reply.Value)
 }
 
 //

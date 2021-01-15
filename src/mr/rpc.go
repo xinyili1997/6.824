@@ -3,19 +3,21 @@ package mr
 //
 // RPC definitions.
 //
+import "log"
 
 //
 // example to show how to declare the arguments
 // and reply for an RPC.
 //
 
-type ExampleArgs struct {
-	X int
+type RPCArgs struct {
+	Key   string
+	Value string
 }
 
-type ExampleReply struct {
-	Y int
+type RPCReply struct {
+	//Err Err
+  Value string
 }
-
 // Add your RPC definitions here.
 

@@ -17,8 +17,8 @@ type Master struct {
 //
 // an example RPC handler.
 //
-func (m *Master) Example(args *ExampleArgs, reply *ExampleReply) error {
-	reply.Y = args.X + 1
+func (m *Master) Example(args *RPCArgs, reply *RPCReply) error {
+	reply.Value = args.Value
 	return nil
 }
 
